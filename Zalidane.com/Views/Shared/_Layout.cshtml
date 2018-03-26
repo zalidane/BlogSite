@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Personal Site of Antonio Delgado">
+    <meta name="author" content="Antonio Delgado">
+
+    <title>Zalidane | @ViewBag.Title</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+
+    <div class="container body-content">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Zalidane.com", "Index", "Home", null, new { @class = "navbar-brand" })
+                </div> <!-- end navbar-header -->
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="nav navbar-nav">
+                        <li class="Home">@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li class="Blog">@Html.ActionLink("Weblog", "Index", "Weblog")</li>
+                        <li class="Samples">@Html.ActionLink("Samples", "Index", "Samples")</li>
+                        <li class="Resume">@Html.ActionLink("Resume", "Resume", "Home")</li>
+                        <li class="Contact">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Zalidane.com</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".nav li").removeClass("active");//this will remove the active class from
+            //previously active menu item
+            $('.@ViewBag.Title').addClass('active');
+        });
+    </script>
+</body>
+</html>

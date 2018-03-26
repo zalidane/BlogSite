@@ -1,0 +1,113 @@
+﻿@using Zalidane.com.Helpers;
+@model PagedList.IPagedList<Zalidane.com.Models.Post>
+@using PagedList.Mvc
+
+<link rel="stylesheet" href="~/Content/PagedList.css" type="text/css" />
+
+@{
+    ViewBag.Title = "Blog";
+    var author = "@Zalidane";
+}
+
+<div id="mainImage" class="jumbotron">
+    <h1><span class="bg-success img-rounded">&nbsp;My Blog&nbsp;</span></h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                @foreach (var post in Model)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-4 pull-left">
+                                    <a href="~/Weblog/Post/@post.ID">@Html.DisplayFor(modelItem => post.Title)</a>
+                                </div>
+                                <div class="col-md-offset-8 small text-right">
+                                    <small>@(post.DateTime.ToLongDateString())&nbsp;</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            @if (post.Body.Length > 200)
+                            {
+                                <span>@(Html.Raw(post.Body.Substring(0, 200) + "</p>"))...</span>
+                                <a class="btn btn-xs btn-default" href="~/Weblog/Post/@post.ID">Read More &raquo;</a>
+                                <br />
+                            }
+                            else
+                            {
+                                <span>@Html.Raw(post.Body)...</span>
+                            }
+                        </div>
+                        <div class="panel-footer">
+                            <!-- social links -->
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <div class="fb-like" data-href="http://zalidane.com/Weblog/Post/@post.ID" data-layout="button" data-action="like"
+                                         data-show-faces="true" data-share="false"></div>
+                                </div>
+                                <div class="col-md-1">
+                                    @*<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://zalidane.com/Weblog/Post/@post.ID"
+                                        data-text="@post.Title" data-via="zalidane" data-count="none">Tweet</a>*@
+                                    <a class="twitter-share-button popup" href="https://twitter.com/share?text=@post.Title">Tweet</a>
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-7">
+                                    @foreach (string tag in TagHelper.GetTags(post))
+                                    {
+                                        string separator = "|";
+                                        <a href="~/Weblog/Tag/@tag"> @tag</a> @separator
+                                    }
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <span>Comments: @Html.DisplayFor(modelItem => post.Comments.Count)&nbsp;</span>
+                                </div>
+                            </div>
+                            <!-- end social links -->
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        @*<div class="col-md-1"></div>*@
+
+        <!-- Twitter feed -->
+        <div class="col-md-4">
+            <a class="twitter-timeline" href="https://twitter.com/zalidane" data-widget-id="480102181656219648">Tweets by @author</a>
+            <script>
+                !function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0],
+                        p = /^http:/.test(d.location) ? 'http' : 'https';
+                    if (!d.getElementById(id)) {
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = p + "://platform.twitter.com/widgets.js";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }
+                }(document, "script", "twitter-wjs");
+            </script>
+        </div>
+        <!-- end Twitter feed -->
+    </div>
+</div>
+@*for each post, display the title, date, tags, and link to the comments*@
+
+<br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>

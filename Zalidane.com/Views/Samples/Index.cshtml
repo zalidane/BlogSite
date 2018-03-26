@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Zalidane.com.Models.CodeSample>
+
+@{
+    ViewBag.Title = "Samples";
+}
+
+<div id="mainImage" class="jumbotron">
+    <h1><span class="bg-success img-rounded">&nbsp;Sample Projects&nbsp;</span></h1>
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div id="codeSamples">
+    @foreach (var item in Model)
+    {
+        <hr />
+
+        <div class="panel">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 class="panel-heading">@item.Title <small><a href="@item.Url"> on GitHub</a></small></h2>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-3 text-right">
+                    <span>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </span>
+                </div>
+            </div>
+
+            <hr />
+            <div class="row panel-body">
+                <div class="col-md-5" data-toggle="modal" data-target="#@("modal"+item.Id)">
+                    <img src="@Url.Action("ShowImage", "Image", new { id = item.Id })" />
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-5">
+                    <h3>Project Description</h3>
+                    <p>@item.Description</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="@("modal"+item.Id)" tabindex="-1" role="dialog" aria-labelledby="@("modal"+item.Id+"Label")" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <img src="@Url.Action("ShowImage", "Image", new { id = item.Id })" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    function getElement(id) {
+        if (document.getElementById) {
+            return document.getElementById(id);
+        } else if (document.all) {
+            return document.all[id];
+        } else if (document.layers) {
+            return document.layers[id];
+        } else {
+            return null;
+        }
+    }
+
+    function ShowPanel(panelId) {
+        var panel = getElement(panelId + "Section");
+        panel.className = panel.className.replace('hidden', 'visible');
+    }
+
+    function HidePanel(panelId) {
+        var panel = getElement(panelId + "Section");
+        panel.className = panel.className.replace('visible', 'hidden');
+    }
+</script>

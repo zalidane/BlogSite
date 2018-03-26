@@ -1,0 +1,12 @@
+﻿@model System.Exception
+
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>Sorry, an error occurred.</p>
+
+<pre>
+    @Model.ToString()
+</pre>

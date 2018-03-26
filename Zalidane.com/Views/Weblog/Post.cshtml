@@ -1,0 +1,45 @@
+﻿@model Zalidane.com.Models.Post
+
+@{
+    ViewBag.Title = "Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool isAdmin = ViewBag.IsAdmin ?? false;
+}
+
+<img class="jumbotron" src="http://placehold.it/1024x300" />
+
+<h2>@Html.DisplayFor(model => model.Title)</h2>
+<h5>
+
+    @if (Model != null)
+    {
+    @Model.DateTime.ToLongDateString()
+    }
+    else
+    {
+    @DateTime.Today.ToLongDateString();
+    }
+
+</h5>
+
+<div>
+    <hr />
+    @if (Model != null)
+    {
+        @Html.Raw(Model.Body)
+    }
+    else
+    {
+        <p>No Post to show, please <a href="~/Weblog/Index">try again</a>.</p>
+    }
+    <hr />
+
+</div>
+<p>
+    @if (isAdmin)
+    {
+        Html.ActionLink("Edit", "Edit", new { id = Model.ID }); <span> | </span>
+    }
+
+    @Html.ActionLink("Back to List", "Index")
+</p>
